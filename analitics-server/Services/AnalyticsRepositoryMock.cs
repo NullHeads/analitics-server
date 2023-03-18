@@ -30,27 +30,27 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
         },
     };
 
-    public IEnumerable<AnalyticsModelDto?> GetList()
+    public Task<IEnumerable<AnalyticsModelDto?>> GetList(int limit, int offset)
     {
-        return DataMock;
+        return Task.FromResult(DataMock.Skip(offset).Take(limit));
     }
 
-    public AnalyticsModelDto? GetById(long id)
+    public Task<AnalyticsModelDto?> GetById(long id)
     {
-        return DataMock.FirstOrDefault(it => it != null && it.Id == id);
+        return Task.FromResult(DataMock.FirstOrDefault(it => it != null && it.Id == id));
     }
 
-    public AnalyticsModelDto Add(AnalyticsModelDto model)
-    {
-        throw new NotImplementedException();
-    }
-
-    public AnalyticsModelDto Update(long id, AnalyticsModelDto model)
+    public Task<AnalyticsModelDto> Add(AnalyticsModelDto model)
     {
         throw new NotImplementedException();
     }
 
-    public void Remove(long id)
+    public Task<AnalyticsModelDto> Update(long id, AnalyticsModelDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task Remove(long id)
     {
         throw new NotImplementedException();
     }

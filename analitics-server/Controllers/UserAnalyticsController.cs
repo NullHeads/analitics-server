@@ -16,16 +16,16 @@ public class UserAnalyticsController : ControllerBase
         _logger = logger;
         _analyticsRepository = analyticsRepository;
     }
-    
+
     [HttpGet]
-    public IEnumerable<AnalyticsModelDto?> Get()
+    public async Task<IEnumerable<AnalyticsModelDto?>> Get(int limit = 20, int offset = 0)
     {
-        return _analyticsRepository.GetList();
+        return await _analyticsRepository.GetList(limit, offset);
     }
-    
+
     [HttpGet("{id}")]
-    public AnalyticsModelDto? GetById([FromRoute] long id)
+    public async Task<AnalyticsModelDto?> GetById([FromRoute] long id)
     {
-        return _analyticsRepository.GetById(id);
+        return await _analyticsRepository.GetById(id);
     }
 }
