@@ -39,4 +39,19 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
     {
         return DataMock.FirstOrDefault(it => it != null && it.Id == id);
     }
+
+    public AnalyticsModelDto Add(AnalyticsModelDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public AnalyticsModelDto Update(long id, AnalyticsModelDto model)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Remove(long id)
+    {
+        throw new NotImplementedException();
+    }
 }
