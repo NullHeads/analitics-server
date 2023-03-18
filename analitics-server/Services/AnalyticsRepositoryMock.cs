@@ -5,23 +5,23 @@ namespace AnalyticsServer.Services;
 
 public class AnalyticsRepositoryMock : IAnalyticsRepository
 {
-    private IEnumerable<AnalyticsModelDto?> DataMock => new[]
+    private IEnumerable<AnalyticsModel?> DataMock => new[]
     {
-        new AnalyticsModelDto()
+        new AnalyticsModel()
         {
             Id = 1,
             FirstName = "firstName1",
             LastName = "lastName1",
             JobTitle = "jobTitle1",
         },
-        new AnalyticsModelDto()
+        new AnalyticsModel()
         {
             Id = 2,
             FirstName = "firstName2",
             LastName = "lastName2",
             JobTitle = "jobTitle2",
         },
-        new AnalyticsModelDto()
+        new AnalyticsModel()
         {
             Id = 3,
             FirstName = "firstName3",
@@ -30,22 +30,22 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
         },
     };
 
-    public Task<IEnumerable<AnalyticsModelDto?>> GetList(int limit, int offset)
+    public Task<IEnumerable<AnalyticsModel?>> GetList(int limit, int offset)
     {
         return Task.FromResult(DataMock.Skip(offset).Take(limit));
     }
 
-    public Task<AnalyticsModelDto?> GetById(long id)
+    public Task<AnalyticsModel?> GetById(long id)
     {
         return Task.FromResult(DataMock.FirstOrDefault(it => it != null && it.Id == id));
     }
 
-    public Task<AnalyticsModelDto> Add(AnalyticsModelDto model)
+    public Task<AnalyticsModel> Add(AnalyticsModel model)
     {
         throw new NotImplementedException();
     }
 
-    public Task<AnalyticsModelDto> Update(long id, AnalyticsModelDto model)
+    public Task<AnalyticsModel> Update(long id, AnalyticsModel model)
     {
         throw new NotImplementedException();
     }

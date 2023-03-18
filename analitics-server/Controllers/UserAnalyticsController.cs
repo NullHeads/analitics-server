@@ -18,13 +18,13 @@ public class UserAnalyticsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<AnalyticsModelDto?>> Get(int limit = 20, int offset = 0)
+    public async Task<IEnumerable<AnalyticsModel?>> Get(int limit = 20, int offset = 0)
     {
         return await _analyticsRepository.GetList(limit, offset);
     }
 
     [HttpGet("{id}")]
-    public async Task<AnalyticsModelDto?> GetById([FromRoute] long id)
+    public async Task<AnalyticsModel?> GetById([FromRoute] long id)
     {
         return await _analyticsRepository.GetById(id);
     }

@@ -13,6 +13,18 @@ services:
       - app
     restart: unless-stopped
     
+  redis:
+    image: redis/redis-stack-server
+    restart: always
+    stdin_open: true
+    container_name: analitics-redis
+    tty: true
+    ports:
+      - "6379:6379"
+      - "8010:8001"
+    volumes:
+      - /local-data/:/data redis/redis-stack:latest
+  
   app:
     build:
       context: ../
@@ -27,6 +39,7 @@ services:
       - "443:443"
     depends_on:
       - rabbitmq
+      - redis
   
 networks:
   app:

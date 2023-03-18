@@ -4,9 +4,9 @@ namespace AnalyticsServer.Contracts;
 
 public interface IAnalyticsRepository
 {
-    public Task<IEnumerable<AnalyticsModelDto?>> GetList(int limit, int offset);
-    public Task<AnalyticsModelDto?> GetById(long id);
-    public Task<AnalyticsModelDto> Add(AnalyticsModelDto model);
-    public Task<AnalyticsModelDto> Update(long id, AnalyticsModelDto model);
+    public Task<IEnumerable<AnalyticsModel?>> GetList(int limit, int offset);
+    public Task<AnalyticsModel?> GetById(long id);
+    public Task<AnalyticsModel> Add(AnalyticsModel model);
+    public Task<AnalyticsModel> Update(long id, AnalyticsModel model);
     public Task Remove(long id);
 }
