@@ -11,6 +11,14 @@ services:
       - RABBITMQ_DEFAULT_PASS=admin
     networks:
       - app
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 256M
+        reservations:
+          cpus: 0.10
+          memory: 128M
     restart: unless-stopped
     
   redis:
@@ -22,6 +30,14 @@ services:
     ports:
       - "6379:6379"
       - "8010:8001"
+    deploy:
+      resources:
+        limits:
+          cpus: 0.10
+          memory: 256M
+        reservations:
+          cpus: 0.10
+          memory: 128M
     networks:
       - app
   
@@ -32,6 +48,14 @@ services:
     container_name: analitics-server
     tty: true
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: 0.20
+          memory: 512M
+        reservations:
+          cpus: 0.25
+          memory: 128M
     networks:
       - app
     ports:
