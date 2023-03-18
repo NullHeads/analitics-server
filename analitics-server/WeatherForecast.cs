@@ -1,4 +1,4 @@
-namespace analitics_server;
+namespace AnaliticsServer;
 
 public class WeatherForecast
 {

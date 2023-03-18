@@ -4,8 +4,9 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>analitics_server</RootNamespace>
+        <RootNamespace>AnalyticsServer</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <AssemblyName>AnalyticsServer</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -17,6 +18,11 @@
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Enums" />
+      <Folder Include="Schedule" />
     </ItemGroup>
 
 </Project>
