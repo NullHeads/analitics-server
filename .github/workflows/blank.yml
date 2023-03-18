@@ -34,4 +34,4 @@ jobs:
             cd back
             git pull https://${{secrets.PAT}}@github.com/NullHeads/analitics-server.git main
             cd Docker
-            echo "${{secrets.PASS}}" | sudo -S docker-compose up -d --build --project-name analitics-back
+            echo "${{secrets.PASS}}" | sudo -S docker-compose up -d --build
