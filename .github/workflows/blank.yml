@@ -9,15 +9,13 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - uses: isbang/compose-action@v1.4.1
       with:
         compose-file: "Docker/docker-compose.yml"
-        down-flags: "-d"
+        down-flags: "up -d"
   
   deploy:
     runs-on: ubuntu-latest
