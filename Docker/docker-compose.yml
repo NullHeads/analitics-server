@@ -24,8 +24,6 @@ services:
       - "8010:8001"
     networks:
       - app
-    volumes:
-      - /local-data/:/data redis/redis-stack
   
   app:
     build:
