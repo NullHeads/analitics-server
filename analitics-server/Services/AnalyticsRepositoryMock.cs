@@ -1,5 +1,6 @@
 ﻿using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;
+using AnalyticsServer.Models.Dto;
 
 namespace AnalyticsServer.Services;
 
@@ -40,12 +41,12 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
         return Task.FromResult(DataMock.FirstOrDefault(it => it != null && it.Id == id));
     }
 
-    public Task<AnalyticsModel> Add(AnalyticsModel model)
+    public Task<AnalyticsModel> Add(AnalyticsModelInsertModelDto model)
     {
         throw new NotImplementedException();
     }
 
-    public Task<AnalyticsModel> Update(long id, AnalyticsModel model)
+    public Task<AnalyticsModel> Update(long id, AnalyticsModelInsertModelDto model)
     {
         throw new NotImplementedException();
     }

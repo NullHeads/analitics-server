@@ -18,7 +18,7 @@ var configuration = builder.Configuration.GetSection("ConfigurationService").Get
 builder.Services.AddSingleton(configuration);
 
 builder.Services.AddCache(configuration.RedisConnectionString);
-builder.Services.AddSingleton<IAnalyticsRepository, AnalyticsRepositoryMock>();
+builder.Services.AddSingleton<IAnalyticsRepository, AnalyticsRepository>();
 
 builder.Services.AddControllers();
 

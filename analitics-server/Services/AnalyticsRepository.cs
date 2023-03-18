@@ -1,5 +1,7 @@
 ﻿using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;
+using AnalyticsServer.Models.Dto;
+using AutoMapper;
 using Redis.OM;
 using Redis.OM.Searching;
 
@@ -24,13 +26,17 @@ public class AnalyticsRepository : IAnalyticsRepository
         return await _people.FirstOrDefaultAsync(it => it.Id == id);
     }
 
-    public async Task<AnalyticsModel> Add(AnalyticsModel model)
+    public async Task<AnalyticsModel> Add(AnalyticsModelInsertModelDto model)
     {
-        await _people.InsertAsync(model);
-        return model;
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<AnalyticsModelInsertModelDto, AnalyticsModel>());
+        var mapper = config.CreateMapper();
+        var newModel = mapper.Map<AnalyticsModel>(model);
+        newModel.Id = await GetNewId();
+        await _people.InsertAsync(newModel);
+        return newModel;
     }
 
-    public async Task<AnalyticsModel> Update(long id, AnalyticsModel model)
+    public async Task<AnalyticsModel> Update(long id, AnalyticsModelInsertModelDto model)
     {
         var person = await _people.FirstAsync(x => x.Id == id);
         person.FirstName = model.FirstName;
@@ -44,5 +50,11 @@ public class AnalyticsRepository : IAnalyticsRepository
     {
         var person = await GetById(id);
         if (person != null) await _people.DeleteAsync(person);
+    }
+
+    private async Task<int> GetNewId()
+    {
+        var list = await _people.ToListAsync();
+        return list.Max(it => it.Id) + 1;
     }
 }

@@ -9,6 +9,7 @@ public class AnalyticsModel
     [Indexed] public string FirstName { get; set; }
     [Indexed] public string LastName { get; set; }
     [Indexed] public string JobTitle { get; set; }
+    [Indexed] public float BurnoutPercent { get; set; }
 }
 
 
