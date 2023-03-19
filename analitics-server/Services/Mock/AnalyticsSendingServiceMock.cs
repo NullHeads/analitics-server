@@ -5,7 +5,7 @@ namespace AnalyticsServer.Services.Mock;
 
 public class AnalyticsSendingServiceMock : IAnalyticsSendingService
 {
-    public Task<bool> Send(List<AnalyticsDataModelDto?> models)
+    public Task<bool> Send(List<AnalyticsDataModelDto> models)
     {
         throw new NotImplementedException();
     }

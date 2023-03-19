@@ -1,7 +1,5 @@
 ﻿using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;
-using AnalyticsServer.Models.Dto;
-using AutoMapper;
 using Redis.OM;
 using Redis.OM.Searching;
 

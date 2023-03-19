@@ -17,9 +17,9 @@ public class AnalyticsSendingService : IAnalyticsSendingService
         _factory = factory;
     }
 
-    public Task<bool> Send(List<AnalyticsDataModelDto?> models)
+    public Task<bool> Send(List<AnalyticsDataModelDto> models)
     {
-        if (!models.Any() || !models.Any(it => it is not null))
+        if (!models.Any())
             return Task.FromResult(false);
         
         var data = JsonSerializer.Serialize(models);

@@ -36,7 +36,7 @@ public class AnalyticsConsumerService : IAnalyticsReceivingService
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                
+                _logger.LogInformation("Receive new data {Data}", message);
             };
             channel.BasicConsume(
                 queue: "UpStream",

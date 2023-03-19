@@ -21,7 +21,8 @@ public class AnalyticsServer : IHostedService
     private async Task Shedule()
     {
         var data = await _analyticsRepository.GetList();
-        await _analyticsSendingService.Send(data.Select(it => it?.GetAnalyticsData()).ToList());
+        var models = data.Where(it => it?.AnalyticsData != null).Select(it => it.GetAnalyticsData()).ToList();
+        await _analyticsSendingService.Send(models);
     }
 
     private void DoWork(object? state)
@@ -32,7 +33,7 @@ public class AnalyticsServer : IHostedService
     public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Analytics server running");
-        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromDays(1));
+        _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
         return Task.CompletedTask;
     }
 

@@ -5,5 +5,5 @@ namespace AnalyticsServer.Contracts;
 
 public interface IAnalyticsSendingService
 {
-    public Task<bool> Send(List<AnalyticsDataModelDto?> models);
+    public Task<bool> Send(List<AnalyticsDataModelDto> models);
 }
