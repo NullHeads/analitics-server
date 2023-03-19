@@ -1,5 +1,4 @@
 ﻿using AnalyticsServer.Models;
-using AnalyticsServer.Models.Dto;
 
 
 namespace AnalyticsServer.Contracts;
