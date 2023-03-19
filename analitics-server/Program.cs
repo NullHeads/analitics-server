@@ -30,6 +30,7 @@ builder.Services.AddSingleton(configuration);
 
 builder.Services.AddCache(configuration.RedisConnectionString);
 builder.Services.AddSingleton<IAnalyticsControllerHandler, AnalyticsControllerHandler>();
+builder.Services.AddSingleton<IUserControllerHandler, UserControllerHandler>();
 
 builder.Services.AddSingleton<IAnalyticsRepository, AnalyticsRepository>();
 builder.Services.AddSingleton<IAnalyticsSendingService, AnalyticsSendingService>();

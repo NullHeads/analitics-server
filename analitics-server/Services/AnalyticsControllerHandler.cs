@@ -17,6 +17,7 @@ public class AnalyticsControllerHandler : IAnalyticsControllerHandler
 
     public async Task<RequestResult<UserModel>> AddAnalyticsData(long userId, AnalyticsDataModel model)
     {
+        if (userId == 0) return new RequestResult<UserModel>(result: false, errorCode: ErrorCode.UserIdNotAllowed);
         try
         {
             var userModel = await _analyticsRepository.UpdateAnalytics(userId, model);

@@ -21,3 +21,20 @@ public class RequestResult<TType>
     public string? Message { get; }
     public TType? Data { get; }
 }
+
+public class RequestResult
+{
+    public RequestResult()
+    {
+    }
+
+    public RequestResult(bool result, ErrorCode errorCode)
+    {
+        Result = result;
+        ErrorCode = errorCode;
+    }
+
+    public bool Result { get; }
+    public ErrorCode ErrorCode { get; }
+    public string? Message { get; }
+}
