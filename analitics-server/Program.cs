@@ -29,6 +29,8 @@ builder.Services.AddSingleton(factory);
 builder.Services.AddSingleton(configuration);
 
 builder.Services.AddCache(configuration.RedisConnectionString);
+builder.Services.AddSingleton<IAnalyticsControllerHandler, AnalyticsControllerHandler>();
+
 builder.Services.AddSingleton<IAnalyticsRepository, AnalyticsRepository>();
 builder.Services.AddSingleton<IAnalyticsSendingService, AnalyticsSendingService>();
 builder.Services.AddSingleton<IAnalyticsReceivingService, AnalyticsConsumerService>();

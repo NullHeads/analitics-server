@@ -1,37 +1,23 @@
-﻿namespace AnalyticsServer.Models;
+﻿using AnalyticsServer.Enums;
 
-public class RequestResult<T, TErrorModel>
+namespace AnalyticsServer.Models;
+
+public class RequestResult<TType>
 {
-    public RequestResult(bool result)
+    public RequestResult(TType? data)
     {
-        Result = result;
-    }
-
-    public RequestResult(bool result, string message)
-    {
-        Result = result;
-        Message = message;
-    }
-
-    public RequestResult(bool result, bool status, T? data)
-    {
-        Result = result;
-        Status = status;
+        Result = true;
         Data = data;
     }
 
-    public RequestResult(bool result, bool status, TErrorModel? errorModelData = default, T? data = default)
+    public RequestResult(bool result, ErrorCode errorCode)
     {
         Result = result;
-        Status = status;
-        Data = data;
-        ErrorModelData = errorModelData;
+        ErrorCode = errorCode;
     }
 
     public bool Result { get; }
-    public bool Status { get; }
+    public ErrorCode ErrorCode { get; }
     public string? Message { get; }
-
-    public T? Data { get; }
-    public TErrorModel? ErrorModelData { get; }
+    public TType? Data { get; }
 }

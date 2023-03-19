@@ -8,16 +8,16 @@ namespace AnalyticsServer.Controllers;
 [Route("api/[controller]")]
 public class AnalyticsController : ControllerBase
 {
-    private readonly IAnalyticsRepository _analyticsRepository;
+    private readonly IAnalyticsControllerHandler _analyticsControllerHandler;
 
-    public AnalyticsController(IAnalyticsRepository analyticsRepository)
+    public AnalyticsController(IAnalyticsControllerHandler analyticsControllerHandler)
     {
-        _analyticsRepository = analyticsRepository;
+        _analyticsControllerHandler = analyticsControllerHandler;
     }
 
     [HttpPost]
-    public async Task<UserModel?> AddAnalyticsData([FromQuery] long userId, [FromBody] AnalyticsDataModel model)
+    public async Task<RequestResult<UserModel>> AddAnalyticsData([FromQuery] long userId, [FromBody] AnalyticsDataModel model)
     {
-        return await _analyticsRepository.UpdateAnalytics(userId, model);
+        return await _analyticsControllerHandler.AddAnalyticsData(userId, model);
     }
 }
