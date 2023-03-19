@@ -1,7 +1,6 @@
 ﻿using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;
 using AnalyticsServer.Models.Dto;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnalyticsServer.Controllers;

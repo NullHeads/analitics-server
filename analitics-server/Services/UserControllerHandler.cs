@@ -19,13 +19,14 @@ public class UserControllerHandler : IUserControllerHandler
 
     public async Task<RequestResult<IEnumerable<UserModelDto>>> Get(int limit = 20, int offset = 0)
     {
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<UserModel, UserModelDto>());
+        var mapper = config.CreateMapper();
         try
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<UserModel, UserModelDto>());
-            var mapper = config.CreateMapper();
             var list = await _analyticsRepository.GetList();
             return new RequestResult<IEnumerable<UserModelDto>>(
-                data: list.ToList().Skip(offset).Take(limit).Select(it => mapper.Map<UserModelDto>(it)));
+                data: list.ToList().Skip(offset).Take(limit).Select(it => mapper.Map<UserModelDto>(it))
+            );
         }
         catch (Exception e)
         {
@@ -38,7 +39,10 @@ public class UserControllerHandler : IUserControllerHandler
     {
         try
         {
-            return new RequestResult<UserModel>(data: await _analyticsRepository.GetById(id));
+            var user = await _analyticsRepository.GetById(id);
+            return user is null
+                ? new RequestResult<UserModel>(false, ErrorCode.UserNotFound)
+                : new RequestResult<UserModel>(data: user);
         }
         catch (Exception e)
         {
@@ -49,9 +53,14 @@ public class UserControllerHandler : IUserControllerHandler
 
     public async Task<RequestResult<UserModel>> Add(UserInsertModelDto model)
     {
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<UserInsertModelDto, UserModel>());
+        var mapper = config.CreateMapper();
         try
         {
-            return new RequestResult<UserModel>(data: await _analyticsRepository.Add(model));
+            var newModel = mapper.Map<UserModel>(model);
+            newModel.Id = await _analyticsRepository.GetNewId();
+
+            return new RequestResult<UserModel>(data: await _analyticsRepository.Add(newModel));
         }
         catch (Exception e)
         {
@@ -62,9 +71,16 @@ public class UserControllerHandler : IUserControllerHandler
 
     public async Task<RequestResult<UserModel>> Update(long id, UserInsertModelDto model)
     {
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<UserInsertModelDto, UserModel>());
+        var mapper = config.CreateMapper();
         try
         {
-            return new RequestResult<UserModel>(data: await _analyticsRepository.Update(id, model));
+            var user = await _analyticsRepository.GetById(id);
+            if (user is null)
+                return new RequestResult<UserModel>(false, ErrorCode.UserNotFound); 
+            
+            var newModel = mapper.Map<UserModel>(model);
+            return new RequestResult<UserModel>(data: await _analyticsRepository.Update(id, newModel));
         }
         catch (Exception e)
         {

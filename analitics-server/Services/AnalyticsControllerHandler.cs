@@ -7,9 +7,9 @@ namespace AnalyticsServer.Services;
 public class AnalyticsControllerHandler : IAnalyticsControllerHandler
 {
     private readonly ILogger<AnalyticsControllerHandler> _logger;
-    private readonly AnalyticsRepository _analyticsRepository;
+    private readonly IAnalyticsRepository _analyticsRepository;
 
-    public AnalyticsControllerHandler(ILogger<AnalyticsControllerHandler> logger, AnalyticsRepository analyticsRepository)
+    public AnalyticsControllerHandler(ILogger<AnalyticsControllerHandler> logger, IAnalyticsRepository analyticsRepository)
     {
         _logger = logger;
         _analyticsRepository = analyticsRepository;
@@ -20,7 +20,13 @@ public class AnalyticsControllerHandler : IAnalyticsControllerHandler
         if (userId == 0) return new RequestResult<UserModel>(result: false, errorCode: ErrorCode.UserIdNotAllowed);
         try
         {
-            var userModel = await _analyticsRepository.UpdateAnalytics(userId, model);
+            var user = await _analyticsRepository.GetById(userId);
+            if (user is null)
+                return new RequestResult<UserModel>(false, ErrorCode.UserNotFound); 
+            
+            user.AnalyticsData = model;
+            var userModel = await _analyticsRepository.Update(userId, user);
+            
             return new RequestResult<UserModel>(data: userModel);
         }
         catch (Exception e)

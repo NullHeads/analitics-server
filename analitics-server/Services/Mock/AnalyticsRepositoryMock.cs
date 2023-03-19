@@ -47,12 +47,12 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
         return Task.FromResult(DataMock.FirstOrDefault(it => it != null && it.Id == id));
     }
 
-    public Task<UserModel> Add(UserInsertModelDto model)
+    public Task<UserModel> Add(UserModel model)
     {
         throw new NotImplementedException();
     }
 
-    public Task<UserModel> Update(long id, UserInsertModelDto model)
+    public Task<UserModel> Update(long id, UserModel model)
     {
         var person = DataMock.FirstOrDefault(x => x?.Id == id);
         if (person is null) throw new NullReferenceException();
@@ -67,7 +67,7 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
         throw new NotImplementedException();
     }
 
-    public Task<UserModel?> UpdateAnalytics(long userId, AnalyticsDataModel model)
+    public Task<int> GetNewId()
     {
         throw new NotImplementedException();
     }

@@ -26,17 +26,13 @@ public class AnalyticsRepository : IAnalyticsRepository
         return await _people.FirstOrDefaultAsync(it => it.Id == id);
     }
 
-    public async Task<UserModel> Add(UserInsertModelDto model)
+    public async Task<UserModel> Add(UserModel model)
     {
-        var config = new MapperConfiguration(cfg => cfg.CreateMap<UserInsertModelDto, UserModel>());
-        var mapper = config.CreateMapper();
-        var newModel = mapper.Map<UserModel>(model);
-        newModel.Id = await GetNewId();
-        await _people.InsertAsync(newModel);
-        return newModel;
+        await _people.InsertAsync(model);
+        return model;
     }
 
-    public async Task<UserModel> Update(long id, UserInsertModelDto model)
+    public async Task<UserModel> Update(long id, UserModel model)
     {
         var person = await _people.FirstAsync(x => x.Id == id);
         person.FirstName = model.FirstName;
@@ -52,17 +48,9 @@ public class AnalyticsRepository : IAnalyticsRepository
         if (person != null) await _people.DeleteAsync(person);
     }
 
-    public async Task<UserModel?> UpdateAnalytics(long userId, AnalyticsDataModel model)
+    public async Task<int> GetNewId()
     {
-        var person = await _people.FirstOrDefaultAsync(x => x.Id == userId);
-        if (person is null) return null;
-        person.AnalyticsData = model;
-        await _people.SaveAsync();
-        return person;
-    }
-
-    private async Task<int> GetNewId()
-    {
+        // TODO: crutch, think about new Id in redis
         var list = await _people.ToListAsync();
         if (!list.Any()) 
             return 1;
