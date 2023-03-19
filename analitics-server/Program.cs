@@ -1,4 +1,3 @@
-
 using AnalyticsServer.Cache;
 using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;

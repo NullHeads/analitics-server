@@ -36,7 +36,11 @@ public class AnalyticsRepository : IAnalyticsRepository
         person.FirstName = model.FirstName;
         person.JobTitle = model.JobTitle;
         person.LastName = model.LastName;
-        await _people.SaveAsync();
+        person.BurnoutPercent = model.BurnoutPercent;
+        if (model.AnalyticsData is not null)
+            person.AnalyticsData = model.AnalyticsData;
+        await Remove(id);
+        await Add(person);
         return person;
     }
 

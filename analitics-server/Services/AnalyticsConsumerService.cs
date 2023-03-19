@@ -1,5 +1,7 @@
 ﻿using System.Text;
+using System.Text.Json;
 using AnalyticsServer.Contracts;
+using AnalyticsServer.Models.Dto;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -9,16 +11,32 @@ public class AnalyticsConsumerService : IAnalyticsReceivingService
 {
     private readonly ILogger<AnalyticsConsumerService> _logger;
     private readonly ConnectionFactory _factory;
+    private readonly IAnalyticsRepository _analyticsRepository;
 
-    public AnalyticsConsumerService(ILogger<AnalyticsConsumerService> logger, ConnectionFactory factory)
+    public AnalyticsConsumerService(ILogger<AnalyticsConsumerService> logger, ConnectionFactory factory,
+        IAnalyticsRepository analyticsRepository)
     {
         _logger = logger;
         _factory = factory;
+        _analyticsRepository = analyticsRepository;
     }
 
-    public Task Receive(CancellationToken cancellationToken)
+    private async Task UpdateBurnoutPercent(List<AnalyticsResultDto>? data)
     {
-        
+        if (data is null)
+            return;
+        foreach (var item in data)
+        {
+            var user = await _analyticsRepository.GetById(item.Id);
+            if (user is null)
+                continue;
+            user.BurnoutPercent = item.BurnoutPercent;
+            await _analyticsRepository.Update(user.Id, user);
+        }
+    }
+
+    public async Task Receive(CancellationToken cancellationToken)
+    {
         while (!cancellationToken.IsCancellationRequested)
         {
             using var connection = _factory.CreateConnection();
@@ -30,22 +48,22 @@ public class AnalyticsConsumerService : IAnalyticsReceivingService
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
-            
-            var consumer = new EventingBasicConsumer(channel);
-            consumer.Received += (model, ea) =>
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 _logger.LogInformation("Receive new data {Data}", message);
+                var data = JsonSerializer.Deserialize<List<AnalyticsResultDto>>(message);
+                await UpdateBurnoutPercent(data);
             };
             channel.BasicConsume(
                 queue: "UpStream",
                 autoAck: true,
+                consumerTag: "UpStream",
                 consumer: consumer);
-
-            Console.WriteLine(" Press [enter] to exit.");
+            await Task.Delay(1000, cancellationToken);
         }
-        
-        return Task.CompletedTask;
     }
 }
