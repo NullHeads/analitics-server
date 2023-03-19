@@ -11,7 +11,8 @@ public class UserModel
     [Indexed] public string FirstName { get; set; }
     [Indexed] public string LastName { get; set; }
     [Indexed] public string JobTitle { get; set; }
-    [Indexed] public float BurnoutPercent { get; set; }
+    [Indexed] public double BurnoutPercent { get; set; }
+    [Indexed] public List<double> Influence { get; set; }
     [Indexed] public AnalyticsDataModel? AnalyticsData { get; set; }
 
     public AnalyticsDataModelDto GetAnalyticsData()

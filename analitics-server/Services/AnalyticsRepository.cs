@@ -36,6 +36,7 @@ public class AnalyticsRepository : IAnalyticsRepository
         person.FirstName = model.FirstName;
         person.JobTitle = model.JobTitle;
         person.LastName = model.LastName;
+        person.Influence = model.Influence;
         person.BurnoutPercent = model.BurnoutPercent;
         if (model.AnalyticsData is not null)
             person.AnalyticsData = model.AnalyticsData;

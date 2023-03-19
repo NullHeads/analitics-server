@@ -30,7 +30,8 @@ public class AnalyticsConsumerService : IAnalyticsReceivingService
             var user = await _analyticsRepository.GetById(item.Id);
             if (user is null)
                 continue;
-            user.BurnoutPercent = item.BurnoutPercent;
+            user.BurnoutPercent = Math.Round(item.BurnoutPercent * 100, 2);
+            user.Influence = item.influence.Select(it => Math.Round(double.Parse(it), 4)).ToList();
             await _analyticsRepository.Update(user.Id, user);
         }
     }
