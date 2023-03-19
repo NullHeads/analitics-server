@@ -13,7 +13,7 @@ public class IndexCreationService : IHostedService
     
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        await _provider.Connection.CreateIndexAsync(typeof(AnalyticsModel));
+        await _provider.Connection.CreateIndexAsync(typeof(UserModel));
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

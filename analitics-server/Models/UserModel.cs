@@ -2,8 +2,8 @@
 
 namespace AnalyticsServer.Models;
 
-[Document(StorageType = StorageType.Json, Prefixes = new[] { "AnalyticsModel" })]
-public class AnalyticsModel
+[Document(StorageType = StorageType.Json, Prefixes = new[] { "UserModel" })]
+public class UserModel
 {
     [RedisIdField] [Indexed] public int Id { get; set; }
     [Indexed] public string FirstName { get; set; }

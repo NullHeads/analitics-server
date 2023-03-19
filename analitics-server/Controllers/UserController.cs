@@ -1,45 +1,43 @@
-﻿using AnalyticsServer.Contracts;
+﻿
+using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;
 using AnalyticsServer.Models.Dto;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnalyticsServer.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UserAnalyticsController : ControllerBase
+public class UserController : ControllerBase
 {
-    private readonly ILogger<UserAnalyticsController> _logger;
     private readonly IAnalyticsRepository _analyticsRepository;
 
-    public UserAnalyticsController(ILogger<UserAnalyticsController> logger, IAnalyticsRepository analyticsRepository)
+    public UserController(IAnalyticsRepository analyticsRepository)
     {
-        _logger = logger;
         _analyticsRepository = analyticsRepository;
     }
 
     [HttpGet]
-    public async Task<IEnumerable<AnalyticsModel?>> Get(int limit = 20, int offset = 0)
+    public async Task<IEnumerable<UserModel?>> Get(int limit = 20, int offset = 0)
     {
         var list = await _analyticsRepository.GetList(limit, offset);
         return list;
     }
 
     [HttpGet("{id}")]
-    public async Task<AnalyticsModel?> GetById([FromRoute] long id)
+    public async Task<UserModel?> GetById([FromRoute] long id)
     {
         return await _analyticsRepository.GetById(id);
     }
 
     [HttpPost]
-    public async Task<AnalyticsModel?> Add([FromBody] AnalyticsModelInsertModelDto model)
+    public async Task<UserModel?> Add([FromBody] UserInsertModelDto model)
     {
         return await _analyticsRepository.Add(model);
     }
 
     [HttpPut("{id}")]
-    public async Task<AnalyticsModel?> Update([FromRoute] long id, [FromBody] AnalyticsModelInsertModelDto model)
+    public async Task<UserModel?> Update([FromRoute] long id, [FromBody] UserInsertModelDto model)
     {
         return await _analyticsRepository.Update(id, model);
     }

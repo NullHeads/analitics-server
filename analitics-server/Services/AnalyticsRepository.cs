@@ -9,34 +9,34 @@ namespace AnalyticsServer.Services;
 
 public class AnalyticsRepository : IAnalyticsRepository
 {
-    private readonly RedisCollection<AnalyticsModel> _people;
+    private readonly RedisCollection<UserModel> _people;
 
     public AnalyticsRepository(RedisConnectionProvider provider)
     {
-        _people = (RedisCollection<AnalyticsModel>)provider.RedisCollection<AnalyticsModel>();
+        _people = (RedisCollection<UserModel>)provider.RedisCollection<UserModel>();
     }
 
-    public async Task<IEnumerable<AnalyticsModel?>> GetList(int limit, int offset)
+    public async Task<IEnumerable<UserModel?>> GetList(int limit, int offset)
     {
         return await _people.ToListAsync();
     }
 
-    public async Task<AnalyticsModel?> GetById(long id)
+    public async Task<UserModel?> GetById(long id)
     {
         return await _people.FirstOrDefaultAsync(it => it.Id == id);
     }
 
-    public async Task<AnalyticsModel> Add(AnalyticsModelInsertModelDto model)
+    public async Task<UserModel> Add(UserInsertModelDto model)
     {
-        var config = new MapperConfiguration(cfg => cfg.CreateMap<AnalyticsModelInsertModelDto, AnalyticsModel>());
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<UserInsertModelDto, UserModel>());
         var mapper = config.CreateMapper();
-        var newModel = mapper.Map<AnalyticsModel>(model);
+        var newModel = mapper.Map<UserModel>(model);
         newModel.Id = await GetNewId();
         await _people.InsertAsync(newModel);
         return newModel;
     }
 
-    public async Task<AnalyticsModel> Update(long id, AnalyticsModelInsertModelDto model)
+    public async Task<UserModel> Update(long id, UserInsertModelDto model)
     {
         var person = await _people.FirstAsync(x => x.Id == id);
         person.FirstName = model.FirstName;

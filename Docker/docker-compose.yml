@@ -14,11 +14,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.10
-          memory: 256M
+          cpus: "0.10"
+          memory: "256M"
         reservations:
-          cpus: 0.10
-          memory: 128M
+          cpus: "0.10"
+          memory: "128M"
     restart: unless-stopped
     
   redis:
@@ -33,11 +33,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.10
-          memory: 256M
+          cpus: "0.10"
+          memory: "256M"
         reservations:
-          cpus: 0.10
-          memory: 128M
+          cpus: "0.10"
+          memory: "128M"
     networks:
       - app
   
@@ -51,11 +51,11 @@ services:
     deploy:
       resources:
         limits:
-          cpus: 0.20
-          memory: 512M
+          cpus: "0.20"
+          memory: "512M"
         reservations:
-          cpus: 0.25
-          memory: 128M
+          cpus: "0.20"
+          memory: "128M"
     networks:
       - app
     ports:
