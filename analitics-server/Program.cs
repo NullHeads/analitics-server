@@ -8,6 +8,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
+const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Host.UseSerilog((hostContext, _, loggerConfiguration) =>
 {
@@ -41,12 +42,24 @@ builder.Services.AddHostedService<ConsumerService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(myAllowSpecificOrigins,
+        corsPolicyBuilder =>
+        {
+            corsPolicyBuilder
+                .AllowAnyOrigin() 
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
+app.UseCors(myAllowSpecificOrigins);
+app.UseCors(corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin());
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
