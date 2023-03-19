@@ -1,4 +1,6 @@
-﻿using Redis.OM.Modeling;
+﻿using AnalyticsServer.Models.Dto;
+using AutoMapper;
+using Redis.OM.Modeling;
 
 namespace AnalyticsServer.Models;
 
@@ -10,6 +12,16 @@ public class UserModel
     [Indexed] public string LastName { get; set; }
     [Indexed] public string JobTitle { get; set; }
     [Indexed] public float BurnoutPercent { get; set; }
+    [Indexed] public AnalyticsDataModel? AnalyticsData { get; set; }
+
+    public AnalyticsDataModelDto GetAnalyticsData()
+    {
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<AnalyticsDataModel, AnalyticsDataModelDto>());
+        var mapper = config.CreateMapper();
+        var model = mapper.Map<AnalyticsDataModelDto>(AnalyticsData);
+        model.Id = Id;
+        return model;
+    }
 }
 
 

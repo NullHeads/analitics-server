@@ -1,7 +1,8 @@
-﻿namespace AnalyticsServer.Models;
+﻿namespace AnalyticsServer.Models.Dto;
 
-public class AnalyticsDataModel
+public class AnalyticsDataModelDto
 {
+    public int Id { get; set; }
     public int TeamMembers { get; set; }
     public int DayAvTime { get; set; }
     public int TaskAmount { get; set; }

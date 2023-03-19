@@ -16,7 +16,7 @@ public class AnalyticsRepository : IAnalyticsRepository
         _people = (RedisCollection<UserModel>)provider.RedisCollection<UserModel>();
     }
 
-    public async Task<IEnumerable<UserModel?>> GetList(int limit, int offset)
+    public async Task<IEnumerable<UserModel?>> GetList()
     {
         return await _people.ToListAsync();
     }
@@ -52,9 +52,21 @@ public class AnalyticsRepository : IAnalyticsRepository
         if (person != null) await _people.DeleteAsync(person);
     }
 
+    public async Task<UserModel?> UpdateAnalytics(long userId, AnalyticsDataModel model)
+    {
+        var person = await _people.FirstOrDefaultAsync(x => x.Id == userId);
+        if (person is null) return null;
+        person.AnalyticsData = model;
+        await _people.SaveAsync();
+        return person;
+    }
+
     private async Task<int> GetNewId()
     {
         var list = await _people.ToListAsync();
+        if (!list.Any()) 
+            return 1;
+        
         return list.Max(it => it.Id) + 1;
     }
 }

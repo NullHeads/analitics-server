@@ -37,9 +37,9 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
         ;
     }
 
-    public Task<IEnumerable<UserModel?>> GetList(int limit, int offset)
+    public Task<IEnumerable<UserModel?>> GetList()
     {
-        return Task.FromResult(DataMock.Skip(offset).Take(limit));
+        return Task.FromResult(DataMock);
     }
 
     public Task<UserModel?> GetById(long id)
@@ -63,6 +63,11 @@ public class AnalyticsRepositoryMock : IAnalyticsRepository
     }
 
     public Task Remove(long id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserModel?> UpdateAnalytics(long userId, AnalyticsDataModel model)
     {
         throw new NotImplementedException();
     }

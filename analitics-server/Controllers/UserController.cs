@@ -1,7 +1,7 @@
-﻿
-using AnalyticsServer.Contracts;
+﻿using AnalyticsServer.Contracts;
 using AnalyticsServer.Models;
 using AnalyticsServer.Models.Dto;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AnalyticsServer.Controllers;
@@ -18,10 +18,12 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<UserModel?>> Get(int limit = 20, int offset = 0)
+    public async Task<IEnumerable<UserModelDto>> Get(int limit = 20, int offset = 0)
     {
-        var list = await _analyticsRepository.GetList(limit, offset);
-        return list;
+        var config = new MapperConfiguration(cfg => cfg.CreateMap<UserModel, UserModelDto>());
+        var mapper = config.CreateMapper();
+        var list = await _analyticsRepository.GetList();
+        return list.ToList().Skip(offset).Take(limit).Select(it => mapper.Map<UserModelDto>(it));
     }
 
     [HttpGet("{id}")]
